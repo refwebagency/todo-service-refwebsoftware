@@ -1,0 +1,37 @@
+[
+    {
+      "Name": "CRUD",
+      "Experience": 1,
+      "Description": "faire un CRUD simple",
+      "Time": 120,
+      "Status": 1
+    },
+    {
+        "Name": "CRUD",
+        "Experience": 1,
+        "Description": "faire un CRUD simple",
+        "Time": 120,
+        "Status": 3
+      },
+      {
+        "Name": "CRUD",
+        "Experience": 1,
+        "Description": "faire un CRUD simple",
+        "Time": 120,
+        "Status": 4
+      },
+      {
+        "Name": "FRONT type todo",
+        "Experience": 2,
+        "Description": "faire un front avec des tâches",
+        "Time": 150,
+        "Status": 1
+      },
+      {
+        "Name": "Logique métier ",
+        "Experience": 3,
+        "Description": "faire un micro service sur une logique métier",
+        "Time": 240,
+        "Status": 4
+      }
+  ]
