@@ -11,6 +11,8 @@ namespace TodoService.Data
 
          Todo GetTodoById(int id);
 
+         IEnumerable<Todo> GetTodoByProjectId(int id);
+
          void CreateTodo(Todo todo);
 
          void UpdateTodoById(int id);

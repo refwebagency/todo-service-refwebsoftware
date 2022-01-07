@@ -46,6 +46,11 @@ namespace TodoService.Data
             return _context.todo.FirstOrDefault(t => t.Id == id);
         }
 
+        public IEnumerable<Todo> GetTodoByProjectId(int id)
+        {
+            return _context.todo.Where(t => t.ProjectId == id).ToList();
+        }
+
         public void UpdateTodoById(int id)
         {
 

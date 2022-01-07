@@ -13,5 +13,7 @@ namespace TodoService.Dtos
         public int Time { get; set; }
 
         public string Status { get; set; }
+
+        public int ProjectId { get; set; }
     }
 }

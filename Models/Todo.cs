@@ -27,6 +27,6 @@ namespace TodoService.Models
 
         // public Specialization
 
-        // public Project
+        public int ProjectId { get; set; }
     }
 }

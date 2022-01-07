@@ -19,5 +19,8 @@ namespace TodoService.Dtos
 
         [Required]
         public string Status { get; set; }
+
+        [Required]
+        public int ProjectId { get; set; }
     }
 }

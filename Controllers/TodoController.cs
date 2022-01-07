@@ -54,6 +54,22 @@ namespace TodoService.Controllers
 
         }
 
+        // Ici on Get une tache par l'ID.
+        [HttpGet("project/id", Name = "GetTodoByProjectId")]
+        public ActionResult<IEnumerable<TodoReadDto>> GetTodoByProjectId(int id)
+        {
+            // Initialisation d'une variable qui recupere depuis le repo la methode GetTaskById
+            var todoItem = _repository.GetTodoByProjectId(id);
+            // Je lui donne une condition que si la tache par Id n'est pas null alors tu retournes un status 200 avec la tache
+            // en question grace a l'autoMapper.
+            if(todoItem != null){
+                return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItem));
+            }else{
+                return NotFound();
+            }
+
+        }
+
         // Ici on requete avec le methode Post ( HttpPost ) pour envoyer les données afin de créé une nouvelle tache
         // En passant par schema du Dto
         [HttpPost]
