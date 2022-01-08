@@ -4,6 +4,7 @@ namespace TodoService.Dtos
 {
     public class TodoUpdateDto
     {
+        [Key]
         [Required]
         public int Id { get; set; }
 
@@ -21,6 +22,9 @@ namespace TodoService.Dtos
 
         [Required]
         public string Status { get; set; }
+
+        [Required]
+        public int SpecializationId { get; set; }
 
         [Required]
         public int ProjectId { get; set; }

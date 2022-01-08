@@ -5,19 +5,21 @@ namespace TodoService.Data
 {
     public interface ITodoRepo
     {
-         bool SaveChanges();
+        bool SaveChanges();
 
-         IEnumerable<Todo> GetAllTodoes();
+        IEnumerable<Todo> GetAllTodoes();
 
-         Todo GetTodoById(int id);
+        Todo GetTodoById(int id);
 
-         IEnumerable<Todo> GetTodoByProjectId(int id);
+        IEnumerable<Todo> GetTodoByProjectId(int id);
 
-         void CreateTodo(Todo todo);
+        IEnumerable<Todo> GetTodoByUserId(int id);
 
-         void UpdateTodoById(int id);
+        void CreateTodo(Todo todo);
 
-         void DeleteTodoById(int id);
+        void UpdateTodoById(int id);
+
+        void DeleteTodoById(int id);
 
          //void DispatchTodo();
     }

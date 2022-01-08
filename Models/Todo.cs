@@ -23,10 +23,14 @@ namespace TodoService.Models
         [Required]
         public string Status { get; set; }
 
-        // public User
+        [Required]
+        public int SpecializationId { get; set; }
 
-        // public Specialization
-
+        [Required]
         public int ProjectId { get; set; }
+
+        public int UserId { get; set; }
+
+        
     }
 }

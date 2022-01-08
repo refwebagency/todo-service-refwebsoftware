@@ -5,6 +5,10 @@ namespace TodoService.Dtos
     public class TodoCreateDto
     {
 
+        [Key]
+        [Required]
+        public int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
@@ -21,6 +25,11 @@ namespace TodoService.Dtos
         public string Status { get; set; }
 
         [Required]
+        public int SpecializationId { get; set; }
+
+        [Required]
         public int ProjectId { get; set; }
+
+        public int UserId { get; set; }
     }
 }
