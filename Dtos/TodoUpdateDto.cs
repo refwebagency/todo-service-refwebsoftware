@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TodoService.Models;
 
 namespace TodoService.Dtos
 {

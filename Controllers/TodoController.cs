@@ -6,6 +6,9 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace TodoService.Controllers
 {
@@ -17,13 +20,14 @@ namespace TodoService.Controllers
         // Ici on Type avec la propriété readonly afin de recuperer les methode du Repo et du IMapper 
         private readonly ITodoRepo _repository;
         private readonly IMapper _mapper;
+        private readonly HttpClient _httpClient;
 
-        public TodoController(ITodoRepo repository, IMapper mapper)
+        public TodoController(ITodoRepo repository, IMapper mapper, HttpClient httpClient)
         {
 
             _repository = repository;
             _mapper = mapper;
-
+            _httpClient = httpClient;
         }
 
         // Ici nous requettons une liste de taches en passant par le DTO qui nous sert de schema pour lire les taches.
@@ -56,15 +60,32 @@ namespace TodoService.Controllers
 
         // Ici on Get une tache par l'ID.
         [HttpGet("project/id", Name = "GetTodoByProjectId")]
-        public ActionResult<IEnumerable<TodoReadDto>> GetTodoByProjectId(int id)
+        public async Task<ActionResult<IEnumerable<TodoReadDto>>> GetTodoByProjectId(int id)
         {
             // Initialisation d'une variable qui recupere depuis le repo la methode GetTaskById
-            var todoItem = _repository.GetTodoByProjectId(id);
+            var todoItems = _repository.GetTodoByProjectId(id);
+           
             // Je lui donne une condition que si la tache par Id n'est pas null alors tu retournes un status 200 avec la tache
             // en question grace a l'autoMapper.
-            if(todoItem != null){
-                return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItem));
-            }else{
+            if(todoItems != null)
+            {
+                foreach(var todoItem in todoItems)
+                {
+                    var getProject = await _httpClient.GetAsync("https://localhost:9001/Project/" + todoItem.Id);
+                    var projectMap = JsonConvert.DeserializeObject<Project>(
+                                                    await getProject.Content.ReadAsStringAsync());
+                    var project = new Project();
+                    project.Id = projectMap.Id;
+                    project.Name = projectMap.Name;
+                    project.StartDate = projectMap.StartDate;
+                    project.EndtDate = projectMap.EndtDate;  
+                    project.ProjectTypeId = projectMap.ProjectTypeId;   
+                    project.ClientId = projectMap.ClientId;               
+                    todoItem.Project = project;
+                }
+                return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItems));
+            }
+            else{
                 return NotFound();
             }
 

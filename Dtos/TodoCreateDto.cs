@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TodoService.Models;
 
 namespace TodoService.Dtos
 {
@@ -31,5 +32,6 @@ namespace TodoService.Dtos
         public int ProjectId { get; set; }
 
         public int UserId { get; set; }
+
     }
 }

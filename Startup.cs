@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using TodoService.Controllers;
 using TodoService.Data;
 
 namespace TodoService
@@ -31,6 +32,7 @@ namespace TodoService
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("todo"));
 
             services.AddScoped<ITodoRepo, TodoRepo>();
+            services.AddHttpClient<TodoController>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers();

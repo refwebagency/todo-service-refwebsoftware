@@ -1,3 +1,5 @@
+using TodoService.Models;
+
 namespace TodoService.Dtos
 {
     public class TodoReadDto
@@ -19,5 +21,8 @@ namespace TodoService.Dtos
         public int ProjectId { get; set; }
 
         public int UserId { get; set; }
+
+        public Project Project { get; set; }
+
     }
 }
