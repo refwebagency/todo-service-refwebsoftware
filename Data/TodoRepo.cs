@@ -1,12 +1,12 @@
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using TodoService.Models;
+using todo_service_refwebsoftware.Models;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Newtonsoft.Json.Linq;
 
-namespace TodoService.Data
+namespace todo_service_refwebsoftware.Data
 {
     public class TodoRepo : ITodoRepo
     {
@@ -36,6 +36,9 @@ namespace TodoService.Data
 
         public IEnumerable<Todo> GetAllTodoes()
         {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
             // Retourne une liste de taches par raport au context
             return _context.todo.ToList();
 
@@ -43,16 +46,25 @@ namespace TodoService.Data
 
         public Todo GetTodoById(int id)
         {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
             return _context.todo.FirstOrDefault(t => t.Id == id);
         }
 
         public IEnumerable<Todo> GetTodoByProjectId(int id)
         {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
             return _context.todo.Where(t => t.ProjectId == id).ToList();
         }
 
         public IEnumerable<Todo> GetTodoByUserId(int id)
         {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
             return _context.todo.Where(t => t.UserId == id).ToList();
         }
 

@@ -12,10 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using TodoService.Controllers;
-using TodoService.Data;
+using todo_service_refwebsoftware.Controllers;
+using todo_service_refwebsoftware.Data;
 
-namespace TodoService
+namespace todo_service_refwebsoftware
 {
     public class Startup
     {

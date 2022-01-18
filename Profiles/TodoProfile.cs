@@ -1,8 +1,8 @@
 using AutoMapper;
-using TodoService.Models;
-using TodoService.Dtos;
+using todo_service_refwebsoftware.Models;
+using todo_service_refwebsoftware.Dtos;
 
-namespace TodoService.profiles
+namespace todo_service_refwebsoftware.profiles
 {
     public class TodoProfile : Profile
     {
@@ -13,6 +13,12 @@ namespace TodoService.profiles
             CreateMap<TodoCreateDto, Todo>();
             CreateMap<TodoUpdateDto, Todo>();
             CreateMap<TodoStatusUpdateDto, Todo>();
+            CreateMap<Project, ProjectReadDTO>();
+            CreateMap<ProjectCreateDto, Project>();
+            CreateMap<User, UserReadDto>();
+            CreateMap<UserCreateDto, User>();
+            CreateMap<Specialization, SpecializationReadDto>();
+            CreateMap<SpecializationCreateDto, Specialization>();
         }
         
     }

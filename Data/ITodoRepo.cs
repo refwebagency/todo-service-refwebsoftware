@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using TodoService.Models;
+using todo_service_refwebsoftware.Models;
 
-namespace TodoService.Data
+namespace todo_service_refwebsoftware.Data
 {
     public interface ITodoRepo
     {

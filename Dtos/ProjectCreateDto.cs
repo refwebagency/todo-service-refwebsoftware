@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace todo_service_refwebsoftware.Models
+namespace todo_service_refwebsoftware.Dtos
 {
-    public class Project
+    public class ProjectCreateDto
     {
         [Key]
         [Required]

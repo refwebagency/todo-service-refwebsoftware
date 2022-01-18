@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using TodoService.Models;
+using todo_service_refwebsoftware.Models;
 
-namespace TodoService.Dtos
+namespace todo_service_refwebsoftware.Dtos
 {
     public class TodoCreateDto
     {

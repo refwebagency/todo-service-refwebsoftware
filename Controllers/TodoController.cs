@@ -1,6 +1,6 @@
-using TodoService.Data;
-using TodoService.Dtos;
-using TodoService.Models;
+using todo_service_refwebsoftware.Data;
+using todo_service_refwebsoftware.Dtos;
+using todo_service_refwebsoftware.Models;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System;
@@ -9,8 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Linq;
 
-namespace TodoService.Controllers
+namespace todo_service_refwebsoftware.Controllers
 {
     [ApiController]
     // Nous definissons la route du controller.
@@ -60,7 +61,7 @@ namespace TodoService.Controllers
 
         // Ici on Get une tache par l'ID.
         [HttpGet("project/id", Name = "GetTodoByProjectId")]
-        public async Task<ActionResult<IEnumerable<TodoReadDto>>> GetTodoByProjectId(int id)
+        public ActionResult<IEnumerable<TodoReadDto>> GetTodoByProjectId(int id)
         {
             // Initialisation d'une variable qui recupere depuis le repo la methode GetTaskById
             var todoItems = _repository.GetTodoByProjectId(id);
@@ -69,20 +70,6 @@ namespace TodoService.Controllers
             // en question grace a l'autoMapper.
             if(todoItems != null)
             {
-                foreach(var todoItem in todoItems)
-                {
-                    var getProject = await _httpClient.GetAsync("https://localhost:9001/Project/" + todoItem.Id);
-                    var projectMap = JsonConvert.DeserializeObject<Project>(
-                                                    await getProject.Content.ReadAsStringAsync());
-                    var project = new Project();
-                    project.Id = projectMap.Id;
-                    project.Name = projectMap.Name;
-                    project.StartDate = projectMap.StartDate;
-                    project.EndtDate = projectMap.EndtDate;  
-                    project.ProjectTypeId = projectMap.ProjectTypeId;   
-                    project.ClientId = projectMap.ClientId;               
-                    todoItem.Project = project;
-                }
                 return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItems));
             }
             else{
@@ -110,10 +97,57 @@ namespace TodoService.Controllers
         // Ici on requete avec le methode Post ( HttpPost ) pour envoyer les données afin de créé une nouvelle tache
         // En passant par schema du Dto
         [HttpPost]
-        public ActionResult<TodoReadDto> CreateTodo(TodoCreateDto todoCreateDto){
+        public async Task<ActionResult<TodoReadDto>> CreateTodo(TodoCreateDto todoCreateDto){
 
             // On initialise une variable ou l'on stock le model de creation de la tache
             var todoModel = _mapper.Map<Todo>(todoCreateDto);
+
+            // requete http en async pour recuperer sur userService un user par son id stock dans une variable
+            var getUser = await _httpClient.GetAsync($"https://localhost:2001/user/{todoModel.Experience}/{todoModel.SpecializationId}");
+
+            // requete http en async pour recuperer sur quote_pdfService un projet par son id stock dans une variable !!!!!!!!!!!!!!!!!!!!!!!!! à modifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            var getProjectOnPDF = await _httpClient.GetAsync("https://localhost:3001/quotepdf/" + todoModel.ProjectId);
+
+            // requete http en async pour recuperer sur specializationService une specialization par son id stock dans une variable
+            var getSpecialization = await _httpClient.GetAsync("https://localhost:4001/specialization/" + todoModel.SpecializationId);
+
+            // deserialization de getUser, qui est mappé sur le DTO UserCreateDto
+            
+            var user = JsonConvert.DeserializeObject<List<UserCreateDto>>(
+                await getUser.Content.ReadAsStringAsync()
+            );
+
+            var projectOnPdf = JsonConvert.DeserializeObject<ProjectCreateDto>(
+                await getProjectOnPDF.Content.ReadAsStringAsync()
+            );
+
+            var specialization = JsonConvert.DeserializeObject<SpecializationCreateDto>(
+                await getSpecialization.Content.ReadAsStringAsync()
+            );
+
+            var userMap = _mapper.Map<List<User>>(user);
+            var projectOnPdfMap = _mapper.Map<Project>(projectOnPdf);
+            var specializationMap = _mapper.Map<Specialization>(specialization);
+
+            
+            Console.WriteLine(userMap[1].LastName);
+            // if(userMap.Count() >= 2)
+            // {
+            //     var rand = new Random();
+            //     var userRand = userMap[rand];
+            // }
+
+            foreach(var u in userMap)
+            {
+                Console.WriteLine(u.LastName);
+            }
+            foreach(var u in userMap)
+            {
+                todoModel.User = u;
+            }
+            todoModel.Project = projectOnPdfMap;
+            todoModel.Specialization = specializationMap;
+
             // Ici on recupere la méthode du repo CreateTodo.
             _repository.CreateTodo(todoModel);
             // On recupere la methode SaveChanges du repo.

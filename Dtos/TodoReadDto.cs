@@ -1,6 +1,6 @@
-using TodoService.Models;
+using todo_service_refwebsoftware.Models;
 
-namespace TodoService.Dtos
+namespace todo_service_refwebsoftware.Dtos
 {
     public class TodoReadDto
     {
@@ -18,9 +18,13 @@ namespace TodoService.Dtos
 
         public int SpecializationId { get; set; }
 
+        public Specialization specialization { get; set; }
+
         public int ProjectId { get; set; }
 
         public int UserId { get; set; }
+
+        public User user { get; set; }
 
         public Project Project { get; set; }
 

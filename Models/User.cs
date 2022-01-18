@@ -2,17 +2,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace todo_service_refwebsoftware.Models
 {
-    public class Project
+    public class User
     {
         [Key]
         [Required]
         public int Id { get; set; }
 
         [Required]
-        public int ClientId { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public int ProjectId { get; set; }
+        public string LastName { get; set; }
 
+        [Required]
+        public int SpecializationId { get; set; }
     }
 }
