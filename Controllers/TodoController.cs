@@ -143,13 +143,6 @@ namespace todo_service_refwebsoftware.Controllers
             if(specializationMapObject != null) todoModel.SpecializationId = specializationMap.Id;
             if(specializationMapObject == null) todoModel.Specialization = specializationMap;
             
-            // if(userObject != null && projectOnPdfMapObject != null) todoModel.UserId = userMap.Id; todoModel.ProjectId = projectOnPdfMap.Id;
-            
-            // if(userObject != null && projectOnPdfMapObject == null) todoModel.UserId = userMap.Id; todoModel.Project = projectOnPdfMap;
-
-            // if(userObject == null && projectOnPdfMapObject != null) todoModel.User = userMap; todoModel.ProjectId = projectOnPdfMap.Id;
-
-            // if(userObject == null && projectOnPdfMapObject == null) todoModel.User = userMap; todoModel.Project = projectOnPdfMap;
 
             // Ici on recupere la méthode du repo CreateTodo.
             _repository.CreateTodo(todoModel);
