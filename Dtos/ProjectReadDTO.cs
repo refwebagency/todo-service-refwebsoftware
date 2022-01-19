@@ -7,5 +7,6 @@ namespace todo_service_refwebsoftware.Dtos
         public int ClientId { get; set; }
 
         public int ProjectId { get; set; }
+
     }
 }

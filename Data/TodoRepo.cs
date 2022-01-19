@@ -68,6 +68,23 @@ namespace todo_service_refwebsoftware.Data
             return _context.todo.Where(t => t.UserId == id).ToList();
         }
 
+        public User GetUserById(int id)
+        {
+            return _context.user.FirstOrDefault(u => u.Id == id);
+        }
+
+
+
+        public Specialization GetSpecializationById(int id)
+        {
+            return _context.specialization.FirstOrDefault(s => s.Id == id);
+        }
+
+        public Project GetProjectById(int id)
+        {
+            return _context.project.FirstOrDefault(p => p.Id == id);
+        }
+
         public void UpdateTodoById(int id)
         {
 

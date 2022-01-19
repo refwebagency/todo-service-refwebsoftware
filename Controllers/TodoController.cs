@@ -1,15 +1,12 @@
 using todo_service_refwebsoftware.Data;
 using todo_service_refwebsoftware.Dtos;
 using todo_service_refwebsoftware.Models;
-using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace todo_service_refwebsoftware.Controllers
 {
@@ -113,7 +110,7 @@ namespace todo_service_refwebsoftware.Controllers
 
             // deserialization de getUser, qui est mappé sur le DTO UserCreateDto
             
-            var user = JsonConvert.DeserializeObject<List<UserCreateDto>>(
+            var user = JsonConvert.DeserializeObject<UserCreateDto>(
                 await getUser.Content.ReadAsStringAsync()
             );
 
@@ -125,33 +122,41 @@ namespace todo_service_refwebsoftware.Controllers
                 await getSpecialization.Content.ReadAsStringAsync()
             );
 
-            var userMap = _mapper.Map<List<User>>(user);
+            var userMap = _mapper.Map<User>(user); 
             var projectOnPdfMap = _mapper.Map<Project>(projectOnPdf);
             var specializationMap = _mapper.Map<Specialization>(specialization);
 
-            
-            Console.WriteLine(userMap[1].LastName);
-            // if(userMap.Count() >= 2)
-            // {
-            //     var rand = new Random();
-            //     var userRand = userMap[rand];
-            // }
 
-            foreach(var u in userMap)
-            {
-                Console.WriteLine(u.LastName);
-            }
-            foreach(var u in userMap)
-            {
-                todoModel.User = u;
-            }
-            todoModel.Project = projectOnPdfMap;
-            todoModel.Specialization = specializationMap;
+            // get de l'objet par son id, pour verifier qu'il soit existant
+            var userObject = _repository.GetUserById(userMap.Id);
+
+            var projectOnPdfMapObject = _repository.GetProjectById(projectOnPdf.Id);
+
+            var specializationMapObject = _repository.GetSpecializationById(specialization.Id);
+
+            if(projectOnPdfMapObject != null) todoModel.ProjectId = projectOnPdfMap.Id;
+            if(projectOnPdfMapObject == null) todoModel.Project = projectOnPdfMap;
+
+            if(userObject != null) todoModel.UserId = userMap.Id;
+            if(userObject == null) todoModel.User = userMap;
+
+            if(specializationMapObject != null) todoModel.SpecializationId = specializationMap.Id;
+            if(specializationMapObject == null) todoModel.Specialization = specializationMap;
+            
+            // if(userObject != null && projectOnPdfMapObject != null) todoModel.UserId = userMap.Id; todoModel.ProjectId = projectOnPdfMap.Id;
+            
+            // if(userObject != null && projectOnPdfMapObject == null) todoModel.UserId = userMap.Id; todoModel.Project = projectOnPdfMap;
+
+            // if(userObject == null && projectOnPdfMapObject != null) todoModel.User = userMap; todoModel.ProjectId = projectOnPdfMap.Id;
+
+            // if(userObject == null && projectOnPdfMapObject == null) todoModel.User = userMap; todoModel.Project = projectOnPdfMap;
 
             // Ici on recupere la méthode du repo CreateTodo.
             _repository.CreateTodo(todoModel);
             // On recupere la methode SaveChanges du repo.
             _repository.SaveChanges();
+
+
             // On stock dans une variable le schema pour lire la nouvelle tache enregistré précedemment.
             var TodoReadDto = _mapper.Map<TodoReadDto>(todoModel);
             // La CreatedAtRoute méthode est destinée à renvoyer un URI à la ressource nouvellement créée lorsque vous appelez une méthode POST pour stocker un nouvel objet.
