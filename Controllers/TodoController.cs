@@ -103,7 +103,7 @@ namespace todo_service_refwebsoftware.Controllers
             var getUser = await _httpClient.GetAsync($"https://localhost:2001/user/{todoModel.Experience}/{todoModel.SpecializationId}");
 
             // requete http en async pour recuperer sur quote_pdfService un projet par son id stock dans une variable !!!!!!!!!!!!!!!!!!!!!!!!! à modifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            var getProjectOnPDF = await _httpClient.GetAsync("https://localhost:3001/quotepdf/" + todoModel.ProjectId);
+            var getProjectOnPDF = await _httpClient.GetAsync("https://localhost:9001/quotepdf/" + todoModel.ProjectId);
 
             // requete http en async pour recuperer sur specializationService une specialization par son id stock dans une variable
             var getSpecialization = await _httpClient.GetAsync("https://localhost:4001/specialization/" + todoModel.SpecializationId);
