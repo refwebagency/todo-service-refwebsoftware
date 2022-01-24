@@ -12,8 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using todo_service_refwebsoftware.AsyncDataServices;
 using todo_service_refwebsoftware.Controllers;
 using todo_service_refwebsoftware.Data;
+using todo_service_refwebsoftware.EventProcessing;
 
 namespace todo_service_refwebsoftware
 {
@@ -33,7 +35,8 @@ namespace todo_service_refwebsoftware
 
             services.AddScoped<ITodoRepo, TodoRepo>();
             services.AddHttpClient<TodoController>();
-
+            services.AddHostedService<MessageBusSuscriber>();
+            services.AddTransient<IEventProcessor, EventProcessor>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers();
             services.AddSwaggerGen(c =>

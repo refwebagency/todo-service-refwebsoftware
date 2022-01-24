@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace todo_service_refwebsoftware.Controllers
 {
@@ -19,13 +20,15 @@ namespace todo_service_refwebsoftware.Controllers
         private readonly ITodoRepo _repository;
         private readonly IMapper _mapper;
         private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
 
-        public TodoController(ITodoRepo repository, IMapper mapper, HttpClient httpClient)
+        public TodoController(ITodoRepo repository, IMapper mapper, HttpClient httpClient, IConfiguration configuration)
         {
 
             _repository = repository;
             _mapper = mapper;
             _httpClient = httpClient;
+            _configuration = configuration;
         }
 
         // Ici nous requettons une liste de taches en passant par le DTO qui nous sert de schema pour lire les taches.
@@ -103,10 +106,10 @@ namespace todo_service_refwebsoftware.Controllers
             var getUser = await _httpClient.GetAsync($"https://localhost:2001/user/{todoModel.Experience}/{todoModel.SpecializationId}");
 
             // requete http en async pour recuperer sur quote_pdfService un projet par son id stock dans une variable !!!!!!!!!!!!!!!!!!!!!!!!! à modifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            var getProjectOnPDF = await _httpClient.GetAsync("https://localhost:9001/quotepdf/" + todoModel.ProjectId);
+            var getProjectOnPDF = await _httpClient.GetAsync("https://localhost:5001/quotepdf/" + todoModel.ProjectId);
 
             // requete http en async pour recuperer sur specializationService une specialization par son id stock dans une variable
-            var getSpecialization = await _httpClient.GetAsync("https://localhost:4001/specialization/" + todoModel.SpecializationId);
+            var getSpecialization = await _httpClient.GetAsync($"{_configuration["SpecializationService"]}" + todoModel.ProjectId);
 
             // deserialization de getUser, qui est mappé sur le DTO UserCreateDto
             

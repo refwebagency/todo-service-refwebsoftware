@@ -19,6 +19,10 @@ namespace todo_service_refwebsoftware.profiles
             CreateMap<UserCreateDto, User>();
             CreateMap<Specialization, SpecializationReadDto>();
             CreateMap<SpecializationCreateDto, Specialization>();
+
+            // RabbitMQ
+            CreateMap<Specialization, UpdateSpecializationAsyncDTO>();
+            CreateMap<UpdateSpecializationAsyncDTO, Specialization>();
         }
         
     }

@@ -28,7 +28,7 @@ namespace todo_service_refwebsoftware.Models
 
         public Specialization Specialization { get; set; }
 
-        [Required]
+        //[Required]
         public int ProjectId { get; set; }
 
         public Project Project { get; set; }

@@ -95,8 +95,12 @@ namespace todo_service_refwebsoftware.Data
 
         }
 
+        public void UpdateSpecializationById(int id)
+        {
+            var specializationItem = _context.specialization.Find(id);
 
-
+            _context.Entry(specializationItem).State = EntityState.Modified;
+        }
 
         public void DeleteTodoById(int id)
         {

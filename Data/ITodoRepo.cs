@@ -11,12 +11,6 @@ namespace todo_service_refwebsoftware.Data
 
         Todo GetTodoById(int id);
 
-        Specialization GetSpecializationById(int id);
-
-        User GetUserById(int id);
-
-        Project GetProjectById(int id);
-
         IEnumerable<Todo> GetTodoByProjectId(int id);
 
         IEnumerable<Todo> GetTodoByUserId(int id);
@@ -26,6 +20,14 @@ namespace todo_service_refwebsoftware.Data
         void UpdateTodoById(int id);
 
         void DeleteTodoById(int id);
+
+        Specialization GetSpecializationById(int id);
+
+        void UpdateSpecializationById(int id);
+
+        User GetUserById(int id);
+
+        Project GetProjectById(int id);
 
          //void DispatchTodo();
     }

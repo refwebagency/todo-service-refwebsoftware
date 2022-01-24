@@ -115,3 +115,4 @@ C:\Users\Maxime\Desktop\todo-service-refwebsoftware\obj\Debug\net5.0\TodoService
 C:\Users\Maxime\Desktop\todo-service-refwebsoftware\obj\Debug\net5.0\ref\TodoService.dll
 C:\Users\Maxime\Desktop\todo-service-refwebsoftware\obj\Debug\net5.0\TodoService.pdb
 C:\Users\Maxime\Desktop\todo-service-refwebsoftware\obj\Debug\net5.0\TodoService.genruntimeconfig.cache
+C:\Users\wuill\OneDrive\Documents\GitHub\todo-service-refwebsoftware\bin\Debug\net5.0\RabbitMQ.Client.dll
