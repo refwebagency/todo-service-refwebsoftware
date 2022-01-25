@@ -25,6 +25,10 @@ namespace todo_service_refwebsoftware.Data
 
         void UpdateSpecializationById(int id);
 
+        void UpdateProjectById(int id);
+
+        void UpdatUserById(int id);
+
         User GetUserById(int id);
 
         Project GetProjectById(int id);

@@ -23,6 +23,12 @@ namespace todo_service_refwebsoftware.profiles
             // RabbitMQ
             CreateMap<Specialization, UpdateSpecializationAsyncDTO>();
             CreateMap<UpdateSpecializationAsyncDTO, Specialization>();
+
+            CreateMap<Project, UpdateProjectAsyncDto>();
+            CreateMap<UpdateProjectAsyncDto, Project>();
+
+            CreateMap<User, UpdateUserAsyncDto>();
+            CreateMap<UpdateUserAsyncDto, User>();
         }
         
     }

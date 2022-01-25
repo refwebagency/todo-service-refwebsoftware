@@ -102,6 +102,20 @@ namespace todo_service_refwebsoftware.Data
             _context.Entry(specializationItem).State = EntityState.Modified;
         }
 
+        public void UpdateProjectById(int id)
+        {
+            var projectItem = _context.project.Find(id);
+
+            _context.Entry(projectItem).State = EntityState.Modified;
+        }
+
+        public void UpdatUserById(int id)
+        {
+            var userItem = _context.user.Find(id);
+
+            _context.Entry(userItem).State = EntityState.Modified;
+        }
+
         public void DeleteTodoById(int id)
         {
             // La méthode Find() recherche l'élément correspondant au paramètre spécifié.
