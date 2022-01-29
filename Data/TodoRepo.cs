@@ -44,6 +44,16 @@ namespace todo_service_refwebsoftware.Data
 
         }
 
+        public IEnumerable<Todo> GetAllTodoesByStatus(string status)
+        {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
+            // Retourne une liste de taches par raport au context
+            return _context.todo.Where(todo => todo.Status == status).ToList();
+
+        }
+
         public Todo GetTodoById(int id)
         {
             _context.user.ToList();

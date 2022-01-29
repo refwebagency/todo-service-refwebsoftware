@@ -23,15 +23,9 @@ namespace todo_service_refwebsoftware.Dtos
         public int Time { get; set; }
 
         [Required]
-        public string Status { get; set; }
-
-        [Required]
         public int SpecializationId { get; set; }
 
         [Required]
         public int ProjectId { get; set; }
-
-        public int UserId { get; set; }
-
     }
 }

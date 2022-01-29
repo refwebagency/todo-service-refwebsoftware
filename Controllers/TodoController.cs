@@ -8,6 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace todo_service_refwebsoftware.Controllers
 {
@@ -40,7 +41,7 @@ namespace todo_service_refwebsoftware.Controllers
             // On retourne un status 200 avec la liste des taches par l'AutoMapper.
             return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItem));
 
-        }   
+        }
 
 
         // Ici on Get une tache par l'ID.
@@ -51,9 +52,12 @@ namespace todo_service_refwebsoftware.Controllers
             var todoItem = _repository.GetTodoById(id);
             // Je lui donne une condition que si la tache par Id n'est pas null alors tu retournes un status 200 avec la tache
             // en question grace a l'autoMapper.
-            if(todoItem != null){
+            if (todoItem != null)
+            {
                 return Ok(_mapper.Map<TodoReadDto>(todoItem));
-            }else{
+            }
+            else
+            {
                 return NotFound();
             }
 
@@ -65,14 +69,15 @@ namespace todo_service_refwebsoftware.Controllers
         {
             // Initialisation d'une variable qui recupere depuis le repo la methode GetTaskById
             var todoItems = _repository.GetTodoByProjectId(id);
-           
+
             // Je lui donne une condition que si la tache par Id n'est pas null alors tu retournes un status 200 avec la tache
             // en question grace a l'autoMapper.
-            if(todoItems != null)
+            if (todoItems != null)
             {
                 return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItems));
             }
-            else{
+            else
+            {
                 return NotFound();
             }
 
@@ -86,9 +91,12 @@ namespace todo_service_refwebsoftware.Controllers
             var todoItem = _repository.GetTodoByUserId(id);
             // Je lui donne une condition que si la tache par Id n'est pas null alors tu retournes un status 200 avec la tache
             // en question grace a l'autoMapper.
-            if(todoItem != null){
+            if (todoItem != null)
+            {
                 return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItem));
-            }else{
+            }
+            else
+            {
                 return NotFound();
             }
 
@@ -97,55 +105,36 @@ namespace todo_service_refwebsoftware.Controllers
         // Ici on requete avec le methode Post ( HttpPost ) pour envoyer les données afin de créé une nouvelle tache
         // En passant par schema du Dto
         [HttpPost]
-        public async Task<ActionResult<TodoReadDto>> CreateTodo(TodoCreateDto todoCreateDto){
-
+        public async Task<ActionResult<TodoReadDto>> CreateTodo(TodoCreateDto todoCreateDto)
+        {
+                
             // On initialise une variable ou l'on stock le model de creation de la tache
             var todoModel = _mapper.Map<Todo>(todoCreateDto);
 
-            // requete http en async pour recuperer sur userService un user par son id stock dans une variable
-            var getUser = await _httpClient.GetAsync($"https://localhost:2001/user/{todoModel.Experience}/{todoModel.SpecializationId}");
-
-            // requete http en async pour recuperer sur quote_pdfService un projet par son id stock dans une variable !!!!!!!!!!!!!!!!!!!!!!!!! à modifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            var getProjectOnPDF = await _httpClient.GetAsync("https://localhost:9001/quotepdf/" + todoModel.ProjectId);
-
             // requete http en async pour recuperer sur specializationService une specialization par son id stock dans une variable
-            var getSpecialization = await _httpClient.GetAsync($"{_configuration["SpecializationService"]}" + todoModel.ProjectId);
+            var getSpecialization = await _httpClient.GetAsync($"{_configuration["SpecializationService"]}" + todoModel.SpecializationId);
+
+            var getProject = await _httpClient.GetAsync($"{_configuration["ProjectService"]}" + todoModel.SpecializationId);
 
             // deserialization de getUser, qui est mappé sur le DTO UserCreateDto
-            
-            var user = JsonConvert.DeserializeObject<UserCreateDto>(
-                await getUser.Content.ReadAsStringAsync()
-            );
 
-            var projectOnPdf = JsonConvert.DeserializeObject<ProjectCreateDto>(
-                await getProjectOnPDF.Content.ReadAsStringAsync()
-            );
-
-            var specialization = JsonConvert.DeserializeObject<SpecializationCreateDto>(
+            var specializationDTO = JsonConvert.DeserializeObject<SpecializationCreateDto>(
                 await getSpecialization.Content.ReadAsStringAsync()
             );
 
-            var userMap = _mapper.Map<User>(user); 
-            var projectOnPdfMap = _mapper.Map<Project>(projectOnPdf);
-            var specializationMap = _mapper.Map<Specialization>(specialization);
+            var projectDTO = JsonConvert.DeserializeObject<ProjectCreateDto>(
+                await getProject.Content.ReadAsStringAsync()
+            );
 
+            var specializationMap = _mapper.Map<Specialization>(specializationDTO);
 
-            // get de l'objet par son id, pour verifier qu'il soit existant
-            var userObject = _repository.GetUserById(userMap.Id);
+            var projectMap = _mapper.Map<Project>(projectDTO);
 
-            var projectOnPdfMapObject = _repository.GetProjectById(projectOnPdf.Id);
+            var specialization = _repository.GetSpecializationById(specializationDTO.Id);
+            var project = _repository.GetProjectById(projectDTO.Id);
 
-            var specializationMapObject = _repository.GetSpecializationById(specialization.Id);
-
-            if(projectOnPdfMapObject != null) todoModel.ProjectId = projectOnPdfMap.Id;
-            if(projectOnPdfMapObject == null) todoModel.Project = projectOnPdfMap;
-
-            if(userObject != null) todoModel.UserId = userMap.Id;
-            if(userObject == null) todoModel.User = userMap;
-
-            if(specializationMapObject != null) todoModel.SpecializationId = specializationMap.Id;
-            if(specializationMapObject == null) todoModel.Specialization = specializationMap;
-            
+            if (specialization == null)todoModel.Specialization = specializationMap;
+            if (project == null)todoModel.Project = projectMap;
 
             // Ici on recupere la méthode du repo CreateTodo.
             _repository.CreateTodo(todoModel);
@@ -156,11 +145,11 @@ namespace todo_service_refwebsoftware.Controllers
             // On stock dans une variable le schema pour lire la nouvelle tache enregistré précedemment.
             var TodoReadDto = _mapper.Map<TodoReadDto>(todoModel);
             // La CreatedAtRoute méthode est destinée à renvoyer un URI à la ressource nouvellement créée lorsque vous appelez une méthode POST pour stocker un nouvel objet.
-            return CreatedAtRoute(nameof(GetTodoById), new { id = TodoReadDto.Id }, TodoReadDto); 
+            return CreatedAtRoute(nameof(GetTodoById), new { id = TodoReadDto.Id }, TodoReadDto);
 
         }
         // Ici je requete avec la methode Put avec en parametre la route 'update/id'
-       [HttpPut("updapte/id", Name = "UpdateTodo")]
+        [HttpPut("updapte/id", Name = "UpdateTodo")]
         public ActionResult<TodoReadDto> UpdateTodoById(int id, TodoUpdateDto todoUpdateDto)
         {
             // On initalise une variage qui recupere depuis le repo la methode GetTodoById
@@ -169,7 +158,7 @@ namespace todo_service_refwebsoftware.Controllers
             _mapper.Map(todoUpdateDto, todoModelFromRepo);
 
             // retourne une erreur si null
-            if (todoModelFromRepo == null )
+            if (todoModelFromRepo == null)
             {
                 return NotFound();
             }
@@ -179,7 +168,7 @@ namespace todo_service_refwebsoftware.Controllers
             _repository.SaveChanges();
             // La CreatedAtRoute méthode est destinée à renvoyer un URI à la ressource nouvellement créée lorsque vous appelez une méthode POST pour stocker un nouvel objet.
             return CreatedAtRoute(nameof(GetTodoById), new { id = todoUpdateDto.Id }, todoUpdateDto);
-            
+
         }
 
         [HttpPatch("updapte/todostatus/id", Name = "UpdateTodoStatus")]
@@ -191,7 +180,7 @@ namespace todo_service_refwebsoftware.Controllers
             _mapper.Map(todoStatusUpdateDto, todoModelFromRepo);
 
             // Condition que sir todoModelFromRepo est null alors une erreur 400
-            if (todoModelFromRepo == null )
+            if (todoModelFromRepo == null)
             {
                 return NotFound();
             }
@@ -201,7 +190,40 @@ namespace todo_service_refwebsoftware.Controllers
             _repository.SaveChanges();
             // La CreatedAtRoute méthode est destinée à renvoyer un URI à la ressource nouvellement créée lorsque vous appelez une méthode POST pour stocker un nouvel objet.
             return CreatedAtRoute(nameof(GetTodoById), new { id = todoStatusUpdateDto.Id }, todoStatusUpdateDto);
-            
+
+        }
+
+        [HttpGet("dispatch", Name = "DispatchTodos")]
+        public async Task<ActionResult<IEnumerable<TodoReadDto>>> DispatchTodos()
+        {
+            var todoItems = _repository.GetAllTodoesByStatus("A Faire");
+
+            foreach (var todoItem in todoItems)
+            {
+                var getUser = await _httpClient.GetAsync($"{_configuration["UserService"]}{todoItem.Experience}/{todoItem.SpecializationId}");
+                Console.WriteLine($"{_configuration["UserService"]}{todoItem.Experience}/{todoItem.SpecializationId}");
+                var userDto = JsonConvert.DeserializeObject<UserCreateDto>(
+                await getUser.Content.ReadAsStringAsync()
+                );
+                Console.WriteLine(userDto.Name);
+                var userModel = _mapper.Map<User>(userDto);
+
+                var user = _repository.GetUserById(userModel.Id);
+
+                if (user != null)
+                {
+                    todoItem.User = user;
+                    todoItem.UserId = user.Id;
+                }
+                else
+                {
+                    todoItem.User = userModel;
+                    todoItem.UserId = userModel.Id;
+                }
+                
+            }
+            Console.WriteLine("Dispatch des taches OK");
+            return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItems));
         }
 
         // On requete avec le methode Delete avec en paramatre l'Id
@@ -210,20 +232,20 @@ namespace todo_service_refwebsoftware.Controllers
         {
             // On stock dans taskItem la tache a delete par Id avec la methode du repo GetTodoById.
             var todoItem = _repository.GetTodoById(id);
-            
-            if(todoItem != null)
+
+            if (todoItem != null)
             {
                 _repository.DeleteTodoById(todoItem.Id);
                 _repository.SaveChanges();
                 return Ok();
 
 
-            }else{
+            }
+            else
+            {
                 return NotFound();
             }
 
         }
-
-
     }
 }

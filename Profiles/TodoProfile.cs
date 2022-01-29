@@ -24,8 +24,8 @@ namespace todo_service_refwebsoftware.profiles
             CreateMap<Specialization, UpdateSpecializationAsyncDTO>();
             CreateMap<UpdateSpecializationAsyncDTO, Specialization>();
 
-            CreateMap<Project, UpdateProjectAsyncDto>();
-            CreateMap<UpdateProjectAsyncDto, Project>();
+            CreateMap<Project, ProjectCreateDto>();
+            CreateMap<ProjectCreateDto, Project>();
 
             CreateMap<User, UpdateUserAsyncDto>();
             CreateMap<UpdateUserAsyncDto, User>();

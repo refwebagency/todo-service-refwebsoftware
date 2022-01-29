@@ -15,6 +15,8 @@ namespace todo_service_refwebsoftware.Data
 
         IEnumerable<Todo> GetTodoByUserId(int id);
 
+        IEnumerable<Todo> GetAllTodoesByStatus(string status);
+
         void CreateTodo(Todo todo);
 
         void UpdateTodoById(int id);
