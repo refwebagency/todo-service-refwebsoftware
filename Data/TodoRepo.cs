@@ -1,12 +1,12 @@
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using TodoService.Models;
+using todo_service_refwebsoftware.Models;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Newtonsoft.Json.Linq;
 
-namespace TodoService.Data
+namespace todo_service_refwebsoftware.Data
 {
     public class TodoRepo : ITodoRepo
     {
@@ -36,14 +36,63 @@ namespace TodoService.Data
 
         public IEnumerable<Todo> GetAllTodoes()
         {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
             // Retourne une liste de taches par raport au context
             return _context.todo.ToList();
 
         }
 
+        public IEnumerable<Todo> GetAllTodoesByStatus(string status)
+        {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
+            // Retourne une liste de taches par raport au context
+            return _context.todo.Where(todo => todo.Status == status).ToList();
+
+        }
+
         public Todo GetTodoById(int id)
         {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
             return _context.todo.FirstOrDefault(t => t.Id == id);
+        }
+
+        public IEnumerable<Todo> GetTodoByProjectId(int id)
+        {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
+            return _context.todo.Where(t => t.ProjectId == id).ToList();
+        }
+
+        public IEnumerable<Todo> GetTodoByUserId(int id)
+        {
+            _context.user.ToList();
+            _context.project.ToList();
+            _context.specialization.ToList();
+            return _context.todo.Where(t => t.UserId == id).ToList();
+        }
+
+        public User GetUserById(int id)
+        {
+            return _context.user.FirstOrDefault(u => u.Id == id);
+        }
+
+
+
+        public Specialization GetSpecializationById(int id)
+        {
+            return _context.specialization.FirstOrDefault(s => s.Id == id);
+        }
+
+        public Project GetProjectById(int id)
+        {
+            return _context.project.FirstOrDefault(p => p.Id == id);
         }
 
         public void UpdateTodoById(int id)
@@ -56,8 +105,26 @@ namespace TodoService.Data
 
         }
 
+        public void UpdateSpecializationById(int id)
+        {
+            var specializationItem = _context.specialization.Find(id);
 
+            _context.Entry(specializationItem).State = EntityState.Modified;
+        }
 
+        public void UpdateProjectById(int id)
+        {
+            var projectItem = _context.project.Find(id);
+
+            _context.Entry(projectItem).State = EntityState.Modified;
+        }
+
+        public void UpdatUserById(int id)
+        {
+            var userItem = _context.user.Find(id);
+
+            _context.Entry(userItem).State = EntityState.Modified;
+        }
 
         public void DeleteTodoById(int id)
         {

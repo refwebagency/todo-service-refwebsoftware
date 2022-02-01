@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Maxime\\Desktop\\REF-WEB\\TodoService\\TodoService.csproj": {}
+    "C:\\Users\\nicor\\Bureau\\Stage Dreamoove - RefWeb\\Ref-Web\\todo-service-refwebsoftware\\TodoService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Maxime\\Desktop\\REF-WEB\\TodoService\\TodoService.csproj": {
+    "C:\\Users\\nicor\\Bureau\\Stage Dreamoove - RefWeb\\Ref-Web\\todo-service-refwebsoftware\\TodoService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Maxime\\Desktop\\REF-WEB\\TodoService\\TodoService.csproj",
+        "projectUniqueName": "C:\\Users\\nicor\\Bureau\\Stage Dreamoove - RefWeb\\Ref-Web\\todo-service-refwebsoftware\\TodoService.csproj",
         "projectName": "TodoService",
-        "projectPath": "C:\\Users\\Maxime\\Desktop\\REF-WEB\\TodoService\\TodoService.csproj",
-        "packagesPath": "C:\\Users\\Maxime\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Maxime\\Desktop\\REF-WEB\\TodoService\\obj\\",
+        "projectPath": "C:\\Users\\nicor\\Bureau\\Stage Dreamoove - RefWeb\\Ref-Web\\todo-service-refwebsoftware\\TodoService.csproj",
+        "packagesPath": "C:\\Users\\nicor\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nicor\\Bureau\\Stage Dreamoove - RefWeb\\Ref-Web\\todo-service-refwebsoftware\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Maxime\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\nicor\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -59,6 +59,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
+            },
+            "RabbitMQ.Client": {
+              "target": "Package",
+              "version": "[6.2.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

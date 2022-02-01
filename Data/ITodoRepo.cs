@@ -1,21 +1,39 @@
 using System.Collections.Generic;
-using TodoService.Models;
+using todo_service_refwebsoftware.Models;
 
-namespace TodoService.Data
+namespace todo_service_refwebsoftware.Data
 {
     public interface ITodoRepo
     {
-         bool SaveChanges();
+        bool SaveChanges();
 
-         IEnumerable<Todo> GetAllTodoes();
+        IEnumerable<Todo> GetAllTodoes();
 
-         Todo GetTodoById(int id);
+        Todo GetTodoById(int id);
 
-         void CreateTodo(Todo todo);
+        IEnumerable<Todo> GetTodoByProjectId(int id);
 
-         void UpdateTodoById(int id);
+        IEnumerable<Todo> GetTodoByUserId(int id);
 
-         void DeleteTodoById(int id);
+        IEnumerable<Todo> GetAllTodoesByStatus(string status);
+
+        void CreateTodo(Todo todo);
+
+        void UpdateTodoById(int id);
+
+        void DeleteTodoById(int id);
+
+        Specialization GetSpecializationById(int id);
+
+        void UpdateSpecializationById(int id);
+
+        void UpdateProjectById(int id);
+
+        void UpdatUserById(int id);
+
+        User GetUserById(int id);
+
+        Project GetProjectById(int id);
 
          //void DispatchTodo();
     }

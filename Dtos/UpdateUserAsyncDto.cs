@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
-using todo_service_refwebsoftware.Models;
+
 
 namespace todo_service_refwebsoftware.Dtos
 {
-    public class TodoCreateDto
+    public class UpdateUserAsyncDto
     {
-
         [Key]
         [Required]
         public int Id { get; set; }
@@ -14,18 +13,11 @@ namespace todo_service_refwebsoftware.Dtos
         public string Name { get; set; }
 
         [Required]
-        public int Experience { get; set; }
-
-        [Required]
-        public string Description { get; set; }
-
-        [Required]
-        public int Time { get; set; }
+        public string LastName { get; set; }
 
         [Required]
         public int SpecializationId { get; set; }
 
-        [Required]
-        public int ProjectId { get; set; }
+        public string Event { get; set; }
     }
 }

@@ -1,13 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace todo_service_refwebsoftware.Dtos
+namespace todo_service_refwebsoftware.Models
 {
-    public class TodoStatusUpdateDto
+    public class Specialization
     {
+        [Key]
         [Required]
         public int Id { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        public string Name { get; set; }
     }
 }

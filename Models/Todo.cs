@@ -1,6 +1,7 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace TodoService.Models
+namespace todo_service_refwebsoftware.Models
 {
     public class Todo
     {
@@ -21,12 +22,21 @@ namespace TodoService.Models
         public int Time { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        public string Status { get; set; } = "A Faire";
 
-        // public User
+        [Required]
+        public int SpecializationId { get; set; }
 
-        // public Specialization
+        public Specialization Specialization { get; set; }
 
-        // public Project
+        public int ProjectId { get; set; }
+
+        public Project Project { get; set; }
+
+        public int UserId { get; set; }
+
+        public User User { get; set; }
+
+        
     }
 }
