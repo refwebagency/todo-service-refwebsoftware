@@ -39,10 +39,14 @@ namespace todo_service_refwebsoftware
             services.AddTransient<IEventProcessor, EventProcessor>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers();
+            services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+            }));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TodoService", Version = "v1" });
-            });
+            });        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +64,8 @@ namespace todo_service_refwebsoftware
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("ApiCorsPolicy"); 
 
             app.UseEndpoints(endpoints =>
             {
