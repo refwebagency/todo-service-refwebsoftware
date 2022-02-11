@@ -45,7 +45,7 @@ namespace todo_service_refwebsoftware.Controllers
 
 
         // Ici on Get une tache par l'ID.
-        [HttpGet("id", Name = "GetTodoById")]
+        [HttpGet("{id}", Name = "GetTodoById")]
         public ActionResult<TodoReadDto> GetTodoById(int id)
         {
             // Initialisation d'une variable qui recupere depuis le repo la methode GetTaskById
@@ -64,7 +64,7 @@ namespace todo_service_refwebsoftware.Controllers
         }
 
         // Ici on Get une tache par l'ID.
-        [HttpGet("project/id", Name = "GetTodoByProjectId")]
+        [HttpGet("project/{id}", Name = "GetTodoByProjectId")]
         public ActionResult<IEnumerable<TodoReadDto>> GetTodoByProjectId(int id)
         {
             // Initialisation d'une variable qui recupere depuis le repo la methode GetTaskById
@@ -84,7 +84,7 @@ namespace todo_service_refwebsoftware.Controllers
         }
 
         // Ici on Get une tache par l'ID.
-        [HttpGet("user/id", Name = "GetTodoByUserId")]
+        [HttpGet("user/{id}", Name = "GetTodoByUserId")]
         public ActionResult<IEnumerable<TodoReadDto>> GetTodoByUserId(int id)
         {
             // Initialisation d'une variable qui recupere depuis le repo la methode GetTaskById
@@ -149,7 +149,7 @@ namespace todo_service_refwebsoftware.Controllers
 
         }
         // Ici je requete avec la methode Put avec en parametre la route 'update/id'
-        [HttpPut("updapte/id", Name = "UpdateTodo")]
+        [HttpPut("updapte/{id}", Name = "UpdateTodo")]
         public ActionResult<TodoReadDto> UpdateTodoById(int id, TodoUpdateDto todoUpdateDto)
         {
             // On initalise une variage qui recupere depuis le repo la methode GetTodoById
@@ -171,7 +171,7 @@ namespace todo_service_refwebsoftware.Controllers
 
         }
 
-        [HttpPatch("updapte/todostatus/id", Name = "UpdateTodoStatus")]
+        [HttpPatch("updapte/todostatus/{id}", Name = "UpdateTodoStatus")]
         public ActionResult<TodoReadDto> UpdateTodoStatus(int id, TodoStatusUpdateDto todoStatusUpdateDto)
         {
             // On initalise une variage qui recupere depuis le repo la methode GetTaskById
@@ -209,19 +209,28 @@ namespace todo_service_refwebsoftware.Controllers
                 var userModel = _mapper.Map<User>(userDto);
 
                 var user = _repository.GetUserById(userModel.Id);
+                
 
                 if (user != null)
                 {
                     todoItem.User = user;
                     todoItem.UserId = user.Id;
+                    Console.WriteLine("'user existant'");
                 }
                 else
                 {
+                    _repository.CreateUser(userModel);
                     todoItem.User = userModel;
                     todoItem.UserId = userModel.Id;
+                    Console.WriteLine("'user non existant'");
                 }
                 
+
+                _repository.UpdateTodoById(todoItem.Id);
+                _repository.SaveChanges();
             }
+
+            
             Console.WriteLine("Dispatch des taches OK");
             return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItems));
         }

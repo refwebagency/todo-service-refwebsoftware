@@ -38,6 +38,15 @@ namespace todo_service_refwebsoftware
             services.AddHostedService<MessageBusSuscriber>();
             services.AddTransient<IEventProcessor, EventProcessor>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddCors(options =>     //permet d'autoriser à un client distant de requeter sur le service
+            {
+                options.AddPolicy("AllowAll", p =>  
+                {
+                    p.WithOrigins("http://localhost:4200") //port d'angular
+                    .AllowAnyHeader() //autorise toutes types de données
+                    .AllowAnyMethod(); //autorise toutes les requetes, GET POST PUT DELETE
+                    });
+                });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -60,6 +69,8 @@ namespace todo_service_refwebsoftware
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("AllowAll");
 
             app.UseEndpoints(endpoints =>
             {

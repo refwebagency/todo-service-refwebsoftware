@@ -78,6 +78,18 @@ namespace todo_service_refwebsoftware.Data
             return _context.todo.Where(t => t.UserId == id).ToList();
         }
 
+        public void CreateUser(User user)
+        {         
+            if(user != null)
+            {
+                _context.user.Add(user);
+                _context.SaveChanges();
+
+            }else{
+                throw new ArgumentException(nameof(user));
+            }
+        }
+
         public User GetUserById(int id)
         {
             return _context.user.FirstOrDefault(u => u.Id == id);
