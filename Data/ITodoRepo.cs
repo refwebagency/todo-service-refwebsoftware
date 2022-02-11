@@ -31,6 +31,8 @@ namespace todo_service_refwebsoftware.Data
 
         void UpdatUserById(int id);
 
+        void CreateUser(User user);
+
         User GetUserById(int id);
 
         Project GetProjectById(int id);

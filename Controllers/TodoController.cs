@@ -149,7 +149,7 @@ namespace todo_service_refwebsoftware.Controllers
 
         }
         // Ici je requete avec la methode Put avec en parametre la route 'update/id'
-        [HttpPut("update/{id}", Name = "UpdateTodo")]
+        [HttpPut("updapte/{id}", Name = "UpdateTodo")]
         public ActionResult<TodoReadDto> UpdateTodoById(int id, TodoUpdateDto todoUpdateDto)
         {
             // On initalise une variage qui recupere depuis le repo la methode GetTodoById
@@ -209,19 +209,28 @@ namespace todo_service_refwebsoftware.Controllers
                 var userModel = _mapper.Map<User>(userDto);
 
                 var user = _repository.GetUserById(userModel.Id);
+                
 
                 if (user != null)
                 {
                     todoItem.User = user;
                     todoItem.UserId = user.Id;
+                    Console.WriteLine("'user existant'");
                 }
                 else
                 {
+                    _repository.CreateUser(userModel);
                     todoItem.User = userModel;
                     todoItem.UserId = userModel.Id;
+                    Console.WriteLine("'user non existant'");
                 }
                 
+
+                _repository.UpdateTodoById(todoItem.Id);
+                _repository.SaveChanges();
             }
+
+            
             Console.WriteLine("Dispatch des taches OK");
             return Ok(_mapper.Map<IEnumerable<TodoReadDto>>(todoItems));
         }

@@ -1,8 +1,13 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
+<<<<<<< HEAD
       "C:\\Users\\nicor\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\nicor\\.nuget\\packages"
+=======
+      "C:\\Users\\Maxime\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Maxime\\.nuget\\packages"
+>>>>>>> 7c8d9d5a27fd8ea26922197103d3960306966474
     ]
   }
 }
